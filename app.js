@@ -7,5 +7,8 @@ const port = 3000;
 const middleware = require('./app/middleware');
 app.use(middleware());
 
+// load environment variables
+require('dotenv').load();
+
 app.listen(port);
 console.log(`listening on port ${port}`);
