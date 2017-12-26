@@ -7,7 +7,7 @@ const etag = require('koa-etag');
 const static = require('koa-static');
 const session = require('koa-session2');
 const compress = require('koa-compress');
-const remmoveTrailingSlash = require('./removeTrailingSlash');
+const removeTrailingSlash = require('./removeTrailingSlash');
 const routes = require('./routes');
 
 module.exports = () => {
