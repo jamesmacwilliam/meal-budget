@@ -1,19 +1,29 @@
 {
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "dotenv": "^4.0.0",
+    "fs": "^0.0.1-security",
+    "knex": "^0.14.2",
     "koa": "^2.4.1",
+    "koa-bodyparser": "^4.2.0",
     "koa-compose": "^4.0.0",
     "koa-compress": "^2.0.0",
     "koa-conditional-get": "^2.0.0",
     "koa-etag": "^3.0.0",
+    "koa-passport": "^4.0.1",
+    "koa-redis": "^3.1.2",
     "koa-response-time": "^2.0.0",
     "koa-router": "^7.3.0",
     "koa-send": "^4.1.2",
-    "koa-session2": "^2.2.5",
-    "koa-static": "^4.0.2"
+    "koa-session": "^5.8.1",
+    "koa-static": "^4.0.2",
+    "lodash": "^4.17.4",
+    "passport-local": "^1.0.0",
+    "pg": "^7.4.1"
   },
   "scripts": {
-    "start": "node app.js"
+    "start": "node ./src/server/app.js",
+    "knex": "./node_modules/knex/bin/cli.js"
   },
   "main": "app.js",
   "repository": {

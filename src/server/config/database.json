@@ -1,0 +1,10 @@
+{
+  "development": {
+    "database": "meal_budget_dev",
+    "host": "localhost"
+  },
+  "test": {
+    "database": "meal_budget_test",
+    "host": "localhost"
+  }
+}

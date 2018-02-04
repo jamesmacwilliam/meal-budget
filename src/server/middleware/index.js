@@ -5,10 +5,11 @@ const logger = require('./logger');
 const conditional = require('koa-conditional-get');
 const etag = require('koa-etag');
 const static = require('koa-static');
-const session = require('koa-session2');
 const compress = require('koa-compress');
 const removeTrailingSlash = require('./removeTrailingSlash');
-const routes = require('./routes');
+
+// required for auth
+const bodyParser = require('koa-bodyparser');
 
 module.exports = () => {
   return compose([
@@ -17,7 +18,6 @@ module.exports = () => {
     conditional(),
     etag(),
     static('./public'),
-    session({key: 'mealBudget:sess'}),
     compress({
       filter: function (content_type) {
         return /text/i.test(content_type)
@@ -26,6 +26,6 @@ module.exports = () => {
       flush: require('zlib').Z_SYNC_FLUSH
     }),
     removeTrailingSlash(),
-    routes()
+    bodyParser()
   ]);
 };
