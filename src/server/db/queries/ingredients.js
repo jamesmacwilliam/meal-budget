@@ -17,3 +17,7 @@ export function createByName(name) {
     insert({ name: name }).
     returning('*')
 }
+
+export function base() {
+  conn('ingredients')
+}

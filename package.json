@@ -23,6 +23,7 @@
   },
   "scripts": {
     "start": "node ./src/server/app.js",
+    "test": "mocha",
     "knex": "./node_modules/knex/bin/cli.js"
   },
   "main": "app.js",
