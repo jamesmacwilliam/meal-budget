@@ -1,7 +1,7 @@
 const _ = require('lodash');
 const db = require('./database.json');
 
-env = process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+const env = process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
 let env_specific = {
   development: {

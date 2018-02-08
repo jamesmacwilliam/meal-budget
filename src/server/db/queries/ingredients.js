@@ -2,7 +2,7 @@ const conn = require('../connection')
 
 export function findAllByName(name) {
   return conn('ingredients').
-    where('name', 'like' `%${name}%`).
+    where('name', 'like', `%${name}%`).
     select('*')
 }
 
@@ -18,6 +18,6 @@ export function createByName(name) {
     returning('*')
 }
 
-export function base() {
-  conn('ingredients')
-}
+
+export const base = conn('ingredients')
+export const connection = conn
