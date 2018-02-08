@@ -13,8 +13,6 @@ describe('ingredients', () => {
     Runner()
   })
 
-  after(() => { connection.destroy() })
-
   it('creates new ingredients and queries for them', (done) => {
     async function Runner() {
       let ingredient = (await createByName('test'))[0]

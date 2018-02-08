@@ -1,4 +1,4 @@
-const conn = require('../connection')
+const conn = require('../connection').conn
 
 export function findAllByName(name) {
   return conn('ingredients').
