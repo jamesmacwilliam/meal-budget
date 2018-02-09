@@ -5,8 +5,8 @@ exports.up = function(knex, Promise) {
     table.integer('user_id').notNullable();
     table.integer('kitchen_id').notNullable();
     table.integer('ingredient_id').notNullable();
-    table.integer('meal_id')
-  });
+    table.integer('quantity');
+  })
 };
 
 exports.down = function(knex, Promise) {
