@@ -1,8 +1,5 @@
-import assert from 'assert'
 import { expect } from 'chai'
-import { base, connection, create, find } from '../../src/server/db/queries/kitchens'
-import { addUser } from '../../src/server/db/queries/users'
-
+import { connection, create, find } from '../../src/server/db/queries/kitchens'
 
 describe('kitchens', () => {
   beforeEach((done) => {
