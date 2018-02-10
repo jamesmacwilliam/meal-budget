@@ -17,6 +17,10 @@ app.use(middleware());
 
 const config = require('./config/config');
 
+// ORM
+import Model from 'objection'
+Model.knex(require('../db/connection').conn)
+
 require('./public');
 require('./private');
 
