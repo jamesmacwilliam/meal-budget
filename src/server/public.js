@@ -9,3 +9,4 @@ fs.readdirSync(path.join(__dirname, BaseDir)).forEach((file) => {
   app.use(require(`${BaseDir}/${file}`).routes());
 });
 
+module.exports = app

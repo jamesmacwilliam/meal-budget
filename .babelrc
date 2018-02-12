@@ -1,4 +1,4 @@
 {
-  "presets": [ "es2015", "es2017" ],
-  "plugins": [ "transform-runtime" ]
+  "presets": [ [ "env", { exclude: ["transform-es2015-classes"] } ] ],
+  "plugins": [ "transform-runtime", "syntax-class-properties", "transform-class-properties" ]
 }

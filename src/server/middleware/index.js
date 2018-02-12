@@ -4,7 +4,7 @@ const responseTime = require('koa-response-time');
 const logger = require('./logger');
 const conditional = require('koa-conditional-get');
 const etag = require('koa-etag');
-const static = require('koa-static');
+const kstatic = require('koa-static');
 const compress = require('koa-compress');
 const removeTrailingSlash = require('./removeTrailingSlash');
 
@@ -17,7 +17,7 @@ module.exports = () => {
     logger(),
     conditional(),
     etag(),
-    static('./public'),
+    kstatic('./public'),
     compress({
       filter: function (content_type) {
         return /text/i.test(content_type)

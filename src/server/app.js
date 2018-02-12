@@ -1,6 +1,6 @@
-const fs = require('fs');
 const Koa = require('koa');
 const app = new Koa();
+const mount = require('koa-mount');
 
 // load environment variables
 require('dotenv').load();
@@ -18,11 +18,11 @@ app.use(middleware());
 const config = require('./config/config');
 
 // ORM
-import Model from 'objection'
-Model.knex(require('../db/connection').conn)
+import { Model } from 'objection'
+Model.knex(require('./db/connection').conn)
 
-require('./public');
-require('./private');
+app.use(mount('/', require('./public')))
+app.use(mount('/api', require('./private')))
 
 // start server
 app.listen(config.port);
