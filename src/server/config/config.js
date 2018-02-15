@@ -5,10 +5,18 @@ const env = process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
 let env_specific = {
   development: {
-    port: 3000
+    port: 3000,
+    assets: {
+      host: 'localhost',
+      port: 8080
+    }
   },
   test: {
-    port: 3001
+    port: 3001,
+    assets: {
+      host: 'localhost',
+      port: 8081
+    }
   }
 };
 

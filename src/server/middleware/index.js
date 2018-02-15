@@ -17,7 +17,7 @@ module.exports = () => {
     logger(),
     conditional(),
     etag(),
-    kstatic('./public'),
+    kstatic('./dist'),
     compress({
       filter: function (content_type) {
         return /text/i.test(content_type)

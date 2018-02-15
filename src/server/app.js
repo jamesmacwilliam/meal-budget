@@ -26,4 +26,19 @@ app.use(mount('/api', require('./private')))
 
 // start server
 app.listen(config.port);
+
+if (config.assets) {
+  // assets
+  const webpackConfig = require('../../webpack.config')
+  const webpack = require('webpack')
+  const WebpackDevServer = require('webpack-dev-server')
+  new WebpackDevServer(webpack(webpackConfig), {
+    publicPath: webpackConfig.output.publicPath,
+    hot: true,
+    historyApiFallback: true
+  }).listen(config.assets.port, config.assets.host, (err, result) => {
+    if (err) { console.log(err) }
+  })
+}
+
 console.log(`listening on port ${config.port}`);
