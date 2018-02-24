@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <router-view/>
-  </div>
+  <h2> Hello Login </h2>
 </template>
 <script>
 export default {
