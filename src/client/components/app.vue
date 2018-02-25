@@ -11,7 +11,7 @@
         </v-layout>
       </v-container>
     </v-content>
-    <v-footer color="indigo" app>
+    <v-footer color="primary" app>
       <span class="white--text">&copy; 2018</span>
     </v-footer>
   </v-app>
