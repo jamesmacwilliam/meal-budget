@@ -15,13 +15,19 @@ app.use(session({ store: new RedisStore() }, app));
 const middleware = require('./middleware');
 app.use(middleware());
 
+// auth middleware
+const passport = require('koa-passport');
+require('./middleware/auth');
+app.use(passport.initialize());
+app.use(passport.session());
+
 const config = require('./config/config');
 
 // ORM
 import { Model } from 'objection'
 Model.knex(require('./db/connection').conn)
 
-app.use(mount('/', require('./public')))
+app.use(mount('/pub', require('./public')))
 app.use(mount('/api', require('./private')))
 
 // start server

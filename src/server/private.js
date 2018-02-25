@@ -1,13 +1,8 @@
 const Koa = require('koa');
 const fs = require('fs');
 const path = require('path');
-const passport = require('koa-passport');
 
 const app = new Koa();
-
-require('./middleware/auth');
-app.use(passport.initialize());
-app.use(passport.session());
 
 // require login
 app.use((ctx, next) => {
