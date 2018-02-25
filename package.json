@@ -24,6 +24,7 @@
     "passport-local": "^1.0.0",
     "pg": "^7.4.1",
     "pug": "^2.0.0-rc.4",
+    "vee-validate": "^2.0.4",
     "vue": "^2.5.13",
     "vue-router": "^3.0.1",
     "vuetify": "^1.0.0"
