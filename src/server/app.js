@@ -27,11 +27,11 @@ const config = require('./config/config');
 import { Model } from 'objection'
 Model.knex(require('./db/connection').conn)
 
-app.use(mount('/pub', require('./public')))
+app.use(mount('/', require('./public')))
 app.use(mount('/api', require('./private')))
 
 // start server
-app.listen(config.port);
+const server = app.listen(config.port)
 
 if (config.assets) {
   // assets
@@ -48,3 +48,5 @@ if (config.assets) {
 }
 
 console.log(`listening on port ${config.port}`);
+
+export default server

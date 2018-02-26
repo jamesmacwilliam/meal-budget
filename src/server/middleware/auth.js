@@ -1,12 +1,15 @@
 const passport = require('koa-passport');
-const LocalStrategy = require('passport-local').Strategy;
+
+import { Strategy as LocalStrategy } from 'passport-local'
+import { Strategy as JWTStrategy, ExtractJwt } from 'passport-jwt'
+
 const bcrypt = require('bcryptjs');
 
 const knex = require('../db/connection');
 
 import User from '../models/user'
+import jwt from 'jsonwebtoken'
 
-const options = {};
 
 function comparePass(userPassword, databasePassword) {
   return bcrypt.compareSync(userPassword, databasePassword);
@@ -24,9 +27,34 @@ passport.deserializeUser(async (id, done) => {
   }
 })
 
-passport.use(new LocalStrategy(options, async (username, password, done) => {
+passport.use(new LocalStrategy({}, async (username, password, done) => {
   let user = await User.query().findOne({ username: username })
   if (!user) return done(null, false)
   if (!comparePass(password, user.password)) return done(null, false)
   return done(null, user)
 }))
+
+const opts = {
+  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+  secretOrKey:    process.env.JWT_SECRET
+}
+
+passport.use('jwt', new JWTStrategy(opts, async (jwt_payload, done) => {
+  const user = await User.query().findById(jwt_payload.id)
+  if (!user) { return done(null, false) }
+  return done(null, user)
+}))
+
+export function generateToken() {
+  return async ctx => {
+    const { user } = ctx.state
+    if (user === false) {
+      ctx.status = 401
+    } else {
+      const token = jwt.sign({id: user.id}, opts.secretOrKey);
+
+      ctx.status = 200
+      ctx.body = { token, user }
+    }
+  }
+}

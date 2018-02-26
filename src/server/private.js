@@ -4,13 +4,8 @@ const path = require('path');
 
 const app = new Koa();
 
-// require login
-app.use((ctx, next) => {
-  if (ctx.isAuthenticated()) { return next(); }
-  ctx.type = 'json'
-  ctx.status = 401
-  ctx.body = { status: 'error', message: 'you do not have permission for that action' }
-})
+import passport from 'koa-passport'
+app.use(passport.authenticate('jwt'))
 
 const BaseDir = './routes/private';
 fs.readdirSync(path.join(__dirname, BaseDir)).forEach((file) => {

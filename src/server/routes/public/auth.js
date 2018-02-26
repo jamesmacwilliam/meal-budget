@@ -1,21 +1,9 @@
 import Router from 'koa-router'
+import { generateToken } from '../../middleware/auth'
 const passport = require('koa-passport')
 
 const router = new Router()
 
-router.post('/auth/login', async (ctx) => {
-  return passport.authenticate('local', (err, user, info, status) => {
-    ctx.type = 'json'
-
-    if(user) {
-      ctx.login(user)
-      ctx.status = 200
-      ctx.body = { status: 'success' }
-    }else{
-      ctx.status = 400
-      ctx.body = { status: err }
-    }
-  })(ctx)
-})
+router.post('/auth/login', passport.authenticate('local'), generateToken())
 
 module.exports = router
