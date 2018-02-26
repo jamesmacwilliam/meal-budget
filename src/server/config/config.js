@@ -12,11 +12,7 @@ let env_specific = {
     }
   },
   test: {
-    port: 3001,
-    assets: {
-      host: 'localhost',
-      port: 8081
-    }
+    port: 3001
   }
 };
 
