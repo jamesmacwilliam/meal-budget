@@ -1,15 +1,21 @@
-const compose = require('koa-compose');
+import compose from 'koa-compose'
 
-const responseTime = require('koa-response-time');
-const logger = require('./logger');
-const conditional = require('koa-conditional-get');
-const etag = require('koa-etag');
-const kstatic = require('koa-static');
-const compress = require('koa-compress');
-const removeTrailingSlash = require('./removeTrailingSlash');
+import responseTime from 'koa-response-time'
+import logger from './logger'
+import conditional from 'koa-conditional-get'
+import etag from 'koa-etag'
+import kstatic from 'koa-static'
+import compress from 'koa-compress'
+import removeTrailingSlash from './removeTrailingSlash'
+import passport from 'koa-passport'
+
+// load environment variables
+require('dotenv').load();
+
+require('./auth')
 
 // required for auth
-const bodyParser = require('koa-bodyparser');
+import bodyParser from 'koa-bodyparser'
 
 module.exports = () => {
   return compose([
@@ -26,6 +32,8 @@ module.exports = () => {
       flush: require('zlib').Z_SYNC_FLUSH
     }),
     removeTrailingSlash(),
-    bodyParser()
+    bodyParser(),
+    passport.initialize(),
+    passport.session()
   ]);
 };

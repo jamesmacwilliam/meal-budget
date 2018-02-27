@@ -1,11 +1,9 @@
-const passport = require('koa-passport');
+import passport from 'koa-passport'
 
 import { Strategy as LocalStrategy } from 'passport-local'
 import { Strategy as JWTStrategy, ExtractJwt } from 'passport-jwt'
 
-const bcrypt = require('bcryptjs');
-
-const knex = require('../db/connection');
+import bcrypt from 'bcryptjs'
 
 import User from '../models/user'
 import jwt from 'jsonwebtoken'
@@ -18,7 +16,6 @@ function comparePass(userPassword, databasePassword) {
 passport.serializeUser((user, done) => { done(null, user.id); })
 
 passport.deserializeUser(async (id, done) => {
-  let user = null
   try {
     let user = await User.query().findById(id)
     return done(null, user)
