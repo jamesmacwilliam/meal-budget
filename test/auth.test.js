@@ -9,18 +9,40 @@ const expect = chai.expect
 
 
 describe('authentication', () => {
-
   beforeEach((done) => {
     async function Runner() {
       await conn.truncate('users')
       await conn.truncate('ingredients')
-      await conn.seed.run()
       done()
     }
     Runner()
-  });
+  })
 
-  describe('GET /api/ingredients', () => {
+  describe('without existing users', () => {
+    it('signs up new user', (done) => {
+      chai.request(server)
+        .post('/auth/signup')
+        .send({ username: 'admin@admin.com', password: 'password' })
+        .end((err, res) => {
+          expect(res.body).to.have.property('token')
+          done()
+        })
+    })
+  })
+
+  describe('with existing users', () => {
+    beforeEach((done) => { conn.seed.run().then(() => done()) })
+
+    it('fails if username already exists', (done) => {
+      chai.request(server)
+        .post('/auth/signup')
+        .send({ username: 'admin@admin.com', password: 'password' })
+        .end((err, res) => {
+          expect(res.status).to.eql(400)
+          done()
+        })
+    })
+
     it('should not display data if not logged in', (done) => {
       chai.request(server)
       .get('/api/ingredients')
@@ -45,5 +67,5 @@ describe('authentication', () => {
             })
         })
     })
-  });
+  })
 });

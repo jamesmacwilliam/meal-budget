@@ -1,15 +1,8 @@
-const bcrypt = require('bcryptjs');
+import User from '../../models/user'
 
 exports.seed = (knex, Promise) => {
-  const salt = bcrypt.genSaltSync();
-  const hash = bcrypt.hashSync('password', salt);
   return knex('users').del()
-  .then(() => {
-    return Promise.join(
-      knex('users').insert({
-        username: 'admin@admin.com',
-        password: hash,
-      })
-    );
-  });
-};
+    .then(() => {
+      return Promise.join(User.add({ username: 'admin@admin.com', password: 'password' }))
+    })
+}
