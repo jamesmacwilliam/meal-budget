@@ -7,6 +7,7 @@ const router = new Router()
 
 router.post('/auth/login', passport.authenticate('local'), generateToken())
 router.post('/auth/signup', signup, generateToken())
+router.post('/auth/refresh', passport.authenticate('jwt'), generateToken())
 
 async function signup(ctx, next) {
   const { username, password } = ctx.request.body

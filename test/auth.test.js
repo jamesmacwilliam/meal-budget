@@ -86,5 +86,30 @@ describe('authentication', () => {
             })
         })
     })
+
+    it('does display page if token is refreshed', (done) => {
+      chai.request(server)
+        .post('/auth/login')
+        .send({ username: 'admin@admin.com', password: 'password' })
+        .end((err, res) => {
+          let travelTo = new Date()
+          travelTo.setMinutes(travelTo.getMinutes() + 29)
+          TimeKeeper.travel(travelTo)
+          chai.request(server)
+            .post('/auth/refresh')
+            .set('Authorization', `Bearer ${res.body.token}`)
+            .end((refErr, refRes) => {
+              travelTo.setMinutes(travelTo.getMinutes() + 29)
+              TimeKeeper.travel(travelTo)
+              chai.request(server)
+                .get('/api/ingredients')
+                .set('Authorization', `Bearer ${refRes.body.token}`)
+                .end((apiErr, apiRes) => {
+                  expect(apiRes.body[0].name).to.eql('test-ingredient')
+                  done()
+                })
+            })
+        })
+    })
   })
 });
