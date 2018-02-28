@@ -48,7 +48,7 @@ export function generateToken() {
     if (user === false) {
       ctx.status = 401
     } else {
-      const token = jwt.sign({id: user.id}, opts.secretOrKey);
+      const token = jwt.sign({id: user.id}, opts.secretOrKey, { expiresIn: '30m' })
 
       ctx.status = 200
       ctx.body = { token, user }

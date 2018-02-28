@@ -1,5 +1,6 @@
 import chai from 'chai'
 import chaiHttp from 'chai-http'
+import TimeKeeper from 'timekeeper'
 chai.use(chaiHttp)
 
 import server from '../src/server/app'
@@ -63,6 +64,24 @@ describe('authentication', () => {
             .set('Authorization', `Bearer ${res.body.token}`)
             .end((apiErr, apiRes) => {
               expect(apiRes.body[0].name).to.eql('test-ingredient')
+              done()
+            })
+        })
+    })
+
+    it('does not display page if token is expired', (done) => {
+      chai.request(server)
+        .post('/auth/login')
+        .send({ username: 'admin@admin.com', password: 'password' })
+        .end((err, res) => {
+          let travelTo = new Date()
+          travelTo.setHours(travelTo.getHours() + 1)
+          TimeKeeper.travel(travelTo)
+          chai.request(server)
+            .get('/api/ingredients')
+            .set('Authorization', `Bearer ${res.body.token}`)
+            .end((apiErr, apiRes) => {
+              expect(apiRes.status).to.eql(401)
               done()
             })
         })
