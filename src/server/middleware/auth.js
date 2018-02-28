@@ -7,6 +7,7 @@ import bcrypt from 'bcryptjs'
 
 import User from '../models/user'
 import jwt from 'jsonwebtoken'
+import moment from 'moment'
 
 
 function comparePass(userPassword, databasePassword) {
@@ -50,8 +51,10 @@ export function generateToken() {
     } else {
       const token = jwt.sign({id: user.id}, opts.secretOrKey, { expiresIn: '30m' })
 
+
       ctx.status = 200
-      ctx.body = { token, user }
+      const expiryDate = moment().add(30, 'minutes').toISOString()
+      ctx.body = { token, expiryDate }
     }
   }
 }

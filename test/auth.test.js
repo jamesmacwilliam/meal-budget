@@ -1,6 +1,7 @@
 import chai from 'chai'
 import chaiHttp from 'chai-http'
 import TimeKeeper from 'timekeeper'
+import moment from 'moment'
 chai.use(chaiHttp)
 
 import server from '../src/server/app'
@@ -74,9 +75,7 @@ describe('authentication', () => {
         .post('/auth/login')
         .send({ username: 'admin@admin.com', password: 'password' })
         .end((err, res) => {
-          let travelTo = new Date()
-          travelTo.setHours(travelTo.getHours() + 1)
-          TimeKeeper.travel(travelTo)
+          TimeKeeper.travel(moment().add(1, 'hour').toDate())
           chai.request(server)
             .get('/api/ingredients')
             .set('Authorization', `Bearer ${res.body.token}`)
@@ -93,14 +92,12 @@ describe('authentication', () => {
         .send({ username: 'admin@admin.com', password: 'password' })
         .end((err, res) => {
           let travelTo = new Date()
-          travelTo.setMinutes(travelTo.getMinutes() + 29)
-          TimeKeeper.travel(travelTo)
+          TimeKeeper.travel(moment().add(29, 'minutes').toDate())
           chai.request(server)
             .post('/auth/refresh')
             .set('Authorization', `Bearer ${res.body.token}`)
             .end((refErr, refRes) => {
-              travelTo.setMinutes(travelTo.getMinutes() + 29)
-              TimeKeeper.travel(travelTo)
+              TimeKeeper.travel(moment().add(29, 'minutes').toDate())
               chai.request(server)
                 .get('/api/ingredients')
                 .set('Authorization', `Bearer ${refRes.body.token}`)
