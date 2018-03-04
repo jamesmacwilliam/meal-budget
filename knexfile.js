@@ -1,5 +1,7 @@
-const path = require('path');
-const config = require('./src/server/config/config');
+require('babel-register')
+
+const path = require('path')
+const config = require('./src/server/config/config')
 
 const BASE_PATH = path.join(__dirname, 'src', 'server', 'db');
 

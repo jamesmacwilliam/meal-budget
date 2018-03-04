@@ -1,6 +1,7 @@
 import Koa from 'koa'
-const app = new Koa();
+const app = new Koa()
 import mount from 'koa-mount'
+import Keygrip from 'keygrip'
 
 // load environment variables
 require('dotenv').load();
@@ -8,7 +9,7 @@ require('dotenv').load();
 // session
 import session from 'koa-session'
 import RedisStore from 'koa-redis'
-app.keys = [process.env.PASSPORT_SECRET];
+app.keys = new Keygrip([process.env.PASSPORT_SECRET]);
 app.use(session({ store: new RedisStore() }, app));
 
 // all common middleware

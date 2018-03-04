@@ -1,5 +1,5 @@
 import { Model } from 'objection'
-const bcrypt = require('bcryptjs');
+import bcrypt from 'bcryptjs'
 
 class User extends Model {
   static tableName = 'users'

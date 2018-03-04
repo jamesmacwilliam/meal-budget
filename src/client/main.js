@@ -1,15 +1,8 @@
-// libs
 import Vue from 'vue/dist/vue.esm'
-import VeeValidate from 'vee-validate'
+
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
-
-// internal
-import App from './components/app.vue'
-import router from './router'
-
 import colors from 'vuetify/es5/util/colors'
-
 Vue.use(Vuetify, {
   theme: {
     primary: colors.indigo.darken4,
@@ -18,11 +11,23 @@ Vue.use(Vuetify, {
   }
 })
 
+import VeeValidate from 'vee-validate'
 Vue.use(VeeValidate)
+
+import store from './store'
+
+import axios from 'axios'
+import VueAxios from 'vue-axios'
+Vue.use(VueAxios, axios)
+
+// internal
+import App from './components/app.vue'
+import router from './router'
 
 new Vue({
   el: '#app',
   router,
+  store: store,
   template: "<App />",
   components: { App }
 })

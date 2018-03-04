@@ -2,14 +2,14 @@
   <mb-card title="Login">
     <v-form>
       <v-text-field
-        v-model="login"
-        :error-messages="errors.collect('login')"
+        v-model="username"
+        :error-messages="errors.collect('username')"
         v-validate="'required|email'"
-        data-vv-name="login"
+        data-vv-name="username"
         prepend-icon="person"
         required
-        name="login"
-        label="Login"
+        name="username"
+        label="Email"
         type="text"
         ></v-text-field>
       <v-text-field
@@ -24,7 +24,7 @@
         type="password"
         ></v-text-field>
     </v-form>
-    <v-btn slot="actions" color="primary">Login</v-btn>
+    <v-btn @click="login" slot="actions" color="primary">Login</v-btn>
   </mb-card>
 </template>
 <script>
@@ -34,9 +34,18 @@ export default {
   components: { MbCard },
   data() {
     return {
-      login: '',
+      username: '',
       password: ''
     }
+  },
+  methods: {
+    login() {
+      this.$store.dispatch("fetchToken", { username: this.username, password: this.password })
+      this.$router.push({ name: 'dashboard' })
+    }
+  },
+  mounted() {
+    if(this.$store.getters.freshToken) { this.$router.push({ name: 'dashboard' }) }
   }
 }
 </script>

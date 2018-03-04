@@ -55,6 +55,7 @@ export function generateToken() {
       ctx.status = 200
       const expiryDate = moment().add(30, 'minutes').toISOString()
       ctx.body = { token, expiryDate }
+      ctx.cookies.set('token', token, { signed: true })
     }
   }
 }

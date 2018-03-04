@@ -15,11 +15,9 @@ let router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
-  if (to.name == 'login') {
-    next()
-  }else{
-    next({ name: 'login' })
-  }
+  if (['login', 'logout', 'signup'].indexOf(to.name) >= 0) { return next() }
+  if (router.app.$store.getters.freshToken) { return next() }
+  next({ name: 'login' })
 })
 
 export default router
