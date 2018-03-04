@@ -8,53 +8,24 @@ import moment from 'moment'
 
 const store = new Vuex.Store({
   state: {
-    token: sessionStorage.getItem('jwt'),
-    exp: sessionStorage.getItem('exp'),
-    expWarnSeconds: 60
-  },
-  getters: {
-    freshToken: (state, getters) => {
-      if (getters.expirySeconds > 1) { return state.token }
-      return null
-    },
-    expirySeconds: (state, getters) => {
-      return getters.expiryTime.diff(moment())/1000
-    },
-    expiryTime: (state, getters) => {
-      if (!state.exp) { return moment() }
-      return moment(state.exp)
-    },
-    expiryWarn: (state, getters) => {
-      return getters.expirySeconds <= state.expWarnSeconds
-    }
+    loggedIn: false
   },
   actions: {
-    async fetchToken({ commit, state }, user) {
+    async login({ commit, state }, user) {
       const payload = {
         username: user.username,
         password: user.password
       }
-      let response = await axios.post('/auth/login', payload)
-      commit('setToken', response.data.token)
-      commit('setTokenExpiry', response.data.expiryDate)
+      try {
+        await axios.post('/auth/login', payload)
+        commit('setLoggedIn', true)
+      } catch(e) {}
     }
   },
   mutations: {
-    setToken(state, token) {
-      if (token) {
-        sessionStorage.setItem('jwt', token)
-      }else{
-        sessionStorage.removeItem('jwt')
-      }
-      state.jwt = token
-    },
-    setTokenExpiry(state, expString) {
-      if (expString) {
-        sessionStorage.setItem('exp', expString)
-      }else{
-        sessionStorage.removeItem('exp')
-      }
-      state.exp = moment(expString)
+    setLoggedIn(state, status = false) {
+      sessionStorage.setItem('loggedIn', status.toString())
+      state.loggedIn = status.toString() === 'true'
     }
   }
 })

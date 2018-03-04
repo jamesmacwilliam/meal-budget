@@ -16,7 +16,9 @@ let router = new Router({
 
 router.beforeEach((to, from, next) => {
   if (['login', 'logout', 'signup'].indexOf(to.name) >= 0) { return next() }
-  if (router.app.$store.getters.freshToken) { return next() }
+  if (router.app.$store.state.loggedIn) {
+    return next()
+  }
   next({ name: 'login' })
 })
 

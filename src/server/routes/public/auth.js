@@ -1,13 +1,18 @@
 import Router from 'koa-router'
 import User from '../../models/user'
-import { generateToken } from '../../middleware/auth'
+import { authResponse } from '../../middleware/auth'
 const passport = require('koa-passport')
 
 const router = new Router()
 
-router.post('/auth/login', passport.authenticate('local'), generateToken())
-router.post('/auth/signup', signup, generateToken())
-router.post('/auth/refresh', passport.authenticate('jwt'), generateToken())
+router.post('/auth/login', passport.authenticate('local'), authResponse)
+router.get('/auth/logout', logout)
+router.post('/auth/signup', signup, authResponse)
+
+async function logout(ctx) {
+  if (ctx.isAuthenticated()) { ctx.logout() }
+  ctx.status = 200
+}
 
 async function signup(ctx, next) {
   const { username, password } = ctx.request.body
@@ -25,7 +30,8 @@ async function signup(ctx, next) {
   }
 
   let user = await User.add({ username: username, password: password })
-  ctx.state = { user: user }
+  ctx.status = 200
+  ctx.login(user)
   await next()
 }
 

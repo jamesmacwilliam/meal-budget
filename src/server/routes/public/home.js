@@ -10,7 +10,10 @@ if (config.assets) { prefix = `http://${config.assets.host}:${config.assets.port
 
 router.get('/', async (ctx) => {
   ctx.type = 'html'
-  ctx.body = pug.renderFile('./src/server/index.pug', { scriptBase: `${prefix}/dist/build.js` })
+  ctx.body = pug.renderFile('./src/server/index.pug', {
+    scriptBase: `${prefix}/dist/build.js`,
+    loggedIn: ctx.isAuthenticated().toString()
+  })
 })
 
 

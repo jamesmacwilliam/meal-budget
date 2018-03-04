@@ -1,6 +1,6 @@
 <template>
   <mb-card title="Login">
-    <v-form>
+    <v-form action="/auth/login" method="POST">
       <v-text-field
         v-model="username"
         :error-messages="errors.collect('username')"
@@ -39,13 +39,13 @@ export default {
     }
   },
   methods: {
-    login() {
-      this.$store.dispatch("fetchToken", { username: this.username, password: this.password })
+    async login() {
+      await this.$store.dispatch("login", { username: this.username, password: this.password })
       this.$router.push({ name: 'dashboard' })
     }
   },
   mounted() {
-    if(this.$store.getters.freshToken) { this.$router.push({ name: 'dashboard' }) }
+    if (this.$store.state.loggedIn) { this.$router.push({ name: 'dashboard' }) }
   }
 }
 </script>
