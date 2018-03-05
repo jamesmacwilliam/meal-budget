@@ -9,7 +9,9 @@ import moment from 'moment'
 const store = new Vuex.Store({
   state: {
     loggedIn: false,
-    username: sessionStorage.getItem('username')
+    username: sessionStorage.getItem('username'),
+    flashSuccess: null,
+    flashError: null
   },
   actions: {
     async login({ commit, state }, user) {
@@ -21,7 +23,9 @@ const store = new Vuex.Store({
         await axios.post('/auth/login', payload)
         commit('setLoggedIn', true)
         commit('setUsername', user.username)
-      } catch(e) {}
+      } catch(e) {
+        commit('flashError', 'that username/password was not valid')
+      }
     },
     async logout({ commit, state }) {
       await axios.get('/auth/logout')
@@ -29,6 +33,12 @@ const store = new Vuex.Store({
     }
   },
   mutations: {
+    flashError(state, error) {
+      state.flashError = error
+    },
+    flashSuccess(state, success) {
+      state.flashSuccess = success
+    },
     setUsername(state, username) {
       sessionStorage.setItem('username', username)
       state.username = username
