@@ -20,8 +20,11 @@
 import MbNavigation from './mb-navigation.vue'
 
 export default {
-  props: ['loggedIn'],
+  props: ['loggedIn', 'username'],
   components: { MbNavigation },
-  created() { this.$store.commit('setLoggedIn', this.loggedIn) }
+  created() {
+    this.$store.commit('setLoggedIn', this.loggedIn)
+    this.$store.commit('setUsername', this.username)
+  }
 }
 </script>

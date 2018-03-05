@@ -21,6 +21,17 @@
     <v-toolbar color="primary" dark fixed app>
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-title>Meal Budget</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-menu v-if="loggedIn" bottom left>
+        <v-btn slot="activator">
+          {{ username }}
+        </v-btn>
+        <v-list>
+          <v-list-tile :key="0" @click="logout">
+            <v-list-tile-title>Logout</v-list-tile-title>
+          </v-list-tile>
+        </v-list>
+      </v-menu>
     </v-toolbar>
   </div>
 </template>
@@ -36,6 +47,20 @@ export default {
           path: '/'
         }
       ]
+    }
+  },
+  computed: {
+    username() {
+      return this.$store.state.username
+    },
+    loggedIn() {
+      return this.$store.state.loggedIn
+    }
+  },
+  methods: {
+    async logout() {
+      await this.$store.dispatch('logout')
+      this.$router.push({ name: 'login' })
     }
   }
 }
