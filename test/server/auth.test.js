@@ -2,20 +2,16 @@ import chai from 'chai'
 import chaiHttp from 'chai-http'
 chai.use(chaiHttp)
 
-import server from '../src/server/app'
-import { conn } from '../src/server/db/connection'
+import server from '../../src/server/app'
+import { conn } from '../../src/server/db/connection'
 
 const expect = chai.expect
 
 
 describe('authentication', () => {
-  beforeEach((done) => {
-    async function Runner() {
-      await conn.truncate('users')
-      await conn.truncate('ingredients')
-      done()
-    }
-    Runner()
+  beforeEach(async () => {
+    await conn.truncate('users')
+    await conn.truncate('ingredients')
   })
 
   describe('without existing users', () => {
@@ -28,7 +24,7 @@ describe('authentication', () => {
   })
 
   describe('with existing users', () => {
-    beforeEach((done) => { conn.seed.run().then(() => done()) })
+    beforeEach(async () => { await conn.seed.run() })
 
     it('fails if username already exists', (done) => {
       chai.request(server)
@@ -44,7 +40,7 @@ describe('authentication', () => {
       chai.request(server).get('/api/ingredients')
         .end((err, res) => {
           expect(res.status).to.eql(401)
-          expect(res.text).to.contain('Unauthorized')
+          expect(res.body.login).to.eql('required')
           done()
         })
     })

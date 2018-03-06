@@ -1,7 +1,7 @@
 <template>
   <div>
-    <v-alert type="success" dismissible v-model="success">{{ successMessage }}</v-alert>
-    <v-alert type="error" dismissible v-model="error">{{ errorMessage }}</v-alert>
+    <v-alert type="success" dismissible transition="fade-transition" v-model="success">{{ successMessage }}</v-alert>
+    <v-alert type="error" dismissible transition="fade-transition" v-model="error">{{ errorMessage }}</v-alert>
   </div>
 </template>
 <script>
