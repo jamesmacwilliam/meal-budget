@@ -33,3 +33,8 @@ module.exports = {
         ]
     }
 }
+
+if (process.env.NODE_ENV === 'test') {
+    // exclude NPM deps from test
+    module.exports.externals = [require('webpack-node-externals')()]
+}

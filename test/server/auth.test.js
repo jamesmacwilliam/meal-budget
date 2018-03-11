@@ -1,11 +1,8 @@
-import chai from 'chai'
 import chaiHttp from 'chai-http'
 chai.use(chaiHttp)
 
 import server from '../../src/server/app'
 import { conn } from '../../src/server/db/connection'
-
-const expect = chai.expect
 
 
 describe('authentication', () => {
